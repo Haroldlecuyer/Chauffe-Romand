@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="fr-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulateur : quelle solution de chauffage pour votre maison</title>
+<meta name="description" content="Huit questions sur votre bâtiment. Votre situation au regard de la loi vaudoise, la solution adaptée, le coût estimé et le reste à charge après subvention.">
+<link rel="canonical" href="https://chauffageromand.ch/simulateur/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;450;500;600&display=swap" rel="stylesheet">
+<style>
+.bar{border-bottom:1px solid #dce0dc;background:#fff;margin:-2rem -1.25rem 2rem}.bar-in{max-width:63rem;margin:0 auto;padding:.9rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}.logo{font-weight:600;letter-spacing:-.015em;color:#14201d;text-decoration:none}.logo span{color:#0f4c4a}.bar-link{font-size:.9rem;color:#53625d;text-decoration:none}footer{border-top:1px solid #dce0dc;background:#fff;margin-top:3rem}.foot-in{max-width:63rem;margin:0 auto;padding:2rem 1.25rem;font-size:.85rem;color:#7d8a85;line-height:1.55}.foot-in p{max-width:44rem}:root{
+  --ink:#14201d;
+  --ink-2:#53625d;
+  --ink-3:#7d8a85;
+  --paper:#fbfbf9;
+  --surface:#ffffff;
+  --line:#dce0dc;
+  --line-strong:#b9c1bc;
+  --pine:#0f4c4a;
+  --pine-soft:#eef4f3;
+  --ember:#a34413;
+  --ember-soft:#fbf1e9;
+  --alert:#8a3a2a;
+  --radius:6px;
+  --maxw:41rem;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:1rem;
+  line-height:1.55;
+  font-variant-numeric:tabular-nums;
+}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:2rem 1.25rem 4rem}
+@media(min-width:40rem){.wrap{padding:3.5rem 2rem 5rem}}
+
+/* ---------- en-tête ---------- */
+.intro{margin-bottom:2rem}
+.intro h1{
+  font-size:1.65rem;line-height:1.2;font-weight:600;letter-spacing:-.018em;margin:0 0 .6rem;
+}
+@media(min-width:40rem){.intro h1{font-size:2.1rem}}
+.intro p{margin:0;color:var(--ink-2);max-width:34rem}
+
+/* ---------- progression ---------- */
+.progress{display:flex;gap:3px;margin-bottom:.6rem}
+.progress span{flex:1;height:3px;background:var(--line);border-radius:2px;transition:background .25s ease}
+.progress span.done{background:var(--pine)}
+.progress-label{font-size:.82rem;color:var(--ink-3);margin-bottom:1.6rem}
+
+/* ---------- questions ---------- */
+.card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:1.5rem 1.25rem;
+}
+@media(min-width:40rem){.card{padding:2rem 2rem 1.75rem}}
+.q{font-size:1.22rem;line-height:1.3;font-weight:500;letter-spacing:-.012em;margin:0 0 .35rem}
+.q-help{font-size:.88rem;color:var(--ink-3);margin:0 0 1.15rem}
+.options{display:flex;flex-direction:column;gap:.5rem}
+.opt{
+  display:block;width:100%;text-align:left;
+  font:inherit;color:var(--ink);
+  background:var(--surface);
+  border:1px solid var(--line-strong);
+  border-radius:var(--radius);
+  padding:.85rem 1rem;
+  cursor:pointer;
+  transition:border-color .12s ease,background .12s ease;
+}
+.opt:hover{border-color:var(--pine);background:var(--pine-soft)}
+.opt:focus-visible{outline:2px solid var(--pine);outline-offset:2px}
+.opt strong{display:block;font-weight:500}
+.opt em{display:block;font-style:normal;font-size:.84rem;color:var(--ink-3);margin-top:.12rem}
+
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:.9rem;font-weight:500;margin-bottom:.3rem}
+input[type=text],input[type=email],input[type=tel],select{
+  width:100%;font:inherit;color:var(--ink);
+  padding:.7rem .8rem;
+  border:1px solid var(--line-strong);border-radius:var(--radius);
+  background:var(--surface);
+}
+input:focus,select:focus{outline:2px solid var(--pine);outline-offset:1px;border-color:var(--pine)}
+
+.nav{display:flex;align-items:center;gap:1rem;margin-top:1.25rem}
+.back{
+  background:none;border:none;font:inherit;font-size:.9rem;color:var(--ink-3);
+  cursor:pointer;padding:.4rem 0;text-decoration:underline;text-underline-offset:3px;
+}
+.back:hover{color:var(--ink)}
+.back:focus-visible{outline:2px solid var(--pine);outline-offset:2px}
+
+.btn{
+  font:inherit;font-weight:500;
+  background:var(--pine);color:#fff;
+  border:1px solid var(--pine);border-radius:var(--radius);
+  padding:.8rem 1.4rem;cursor:pointer;
+  transition:background .12s ease;
+}
+.btn:hover{background:#0a3a38}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+
+/* ---------- résultat ---------- */
+.verdict{
+  border-left:3px solid var(--pine);
+  padding:.1rem 0 .1rem 1rem;
+  margin:0 0 1.75rem;
+}
+.verdict h2{font-size:1.3rem;line-height:1.3;font-weight:600;letter-spacing:-.014em;margin:0 0 .4rem}
+.verdict p{margin:0;color:var(--ink-2)}
+.verdict.warn{border-left-color:var(--alert)}
+
+/* le moment fort : le calcul */
+.sum{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:1.4rem 0;margin-bottom:1.5rem}
+.sum-row{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:.45rem 0}
+.sum-row .lbl{font-size:.94rem;color:var(--ink-2);max-width:20rem}
+.sum-row .val{font-size:1.15rem;font-weight:500;white-space:nowrap}
+.sum-row.sub .val{color:var(--ember)}
+.sum-total{
+  display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
+  border-top:1px solid var(--line);margin-top:.7rem;padding-top:1rem;
+}
+.sum-total .lbl{font-size:.94rem;font-weight:500}
+.sum-total .val{font-size:2rem;font-weight:600;letter-spacing:-.02em;white-space:nowrap}
+@media(min-width:40rem){.sum-total .val{font-size:2.4rem}}
+.sum-note{font-size:.82rem;color:var(--ink-3);margin:.9rem 0 0}
+
+.block{margin-bottom:1.5rem}
+.block h3{font-size:1.02rem;font-weight:600;margin:0 0 .45rem}
+.block p{margin:0 0 .6rem;color:var(--ink-2)}
+.points{margin:0;padding-left:1.1rem;color:var(--ink-2)}
+.points li{margin-bottom:.35rem}
+
+.recap{font-size:.86rem;color:var(--ink-3);border:1px solid var(--line);border-radius:var(--radius);padding:.9rem 1rem;margin-bottom:1.75rem}
+.recap b{color:var(--ink-2);font-weight:500}
+
+/* ---------- formulaire de contact ---------- */
+.lead{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.5rem 1.25rem}
+@media(min-width:40rem){.lead{padding:2rem}}
+.lead h3{font-size:1.15rem;font-weight:600;margin:0 0 .4rem}
+.lead > p{margin:0 0 1.25rem;color:var(--ink-2);font-size:.94rem}
+.two{display:grid;gap:1rem}
+@media(min-width:34rem){.two{grid-template-columns:1fr 1fr}}
+.consent{display:flex;gap:.65rem;align-items:flex-start;margin:.4rem 0 1.1rem;font-size:.86rem;color:var(--ink-2)}
+.consent input{margin-top:.25rem;flex:none;width:1.05rem;height:1.05rem;accent-color:var(--pine)}
+.model{font-size:.82rem;color:var(--ink-3);margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--line)}
+.err{color:var(--alert);font-size:.86rem;margin:.5rem 0 0}
+.done{text-align:left;padding:.5rem 0}
+.done h3{font-size:1.2rem;margin:0 0 .5rem}
+
+.foot{font-size:.8rem;color:var(--ink-3);margin-top:2rem;line-height:1.5}
+[hidden]{display:none !important}
+@media(prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
+</style>
+</head>
+<body>
+<div class="bar">
+  <div class="bar-in">
+    <a class="logo" href="/">chauffage<span>romand</span>.ch</a>
+    <a class="bar-link" href="/simulateur/">Simuler ma situation</a>
+  </div>
+</div>
+<div class="wrap">
+
+  <div class="intro">
+    <h1>Votre chauffage face à la nouvelle loi vaudoise</h1>
+    <p>Huit questions, deux minutes. Vous saurez ce que la loi vous impose, quelle solution convient à votre bâtiment, et ce qu'il vous restera à payer une fois les subventions déduites.</p>
+  </div>
+
+  <!-- étapes -->
+  <div id="quiz">
+    <div class="progress" id="progress" aria-hidden="true"></div>
+    <p class="progress-label" id="progressLabel">Question 1 sur 8</p>
+
+    <div class="card">
+      <div id="stepHost" role="group" aria-live="polite"></div>
+      <div class="nav">
+        <button type="button" class="back" id="backBtn" hidden>Revenir en arrière</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- résultat -->
+  <div id="result" hidden></div>
+
+  <p class="foot">Estimation indicative établie à partir des fourchettes de prix constatées en Suisse romande et des barèmes du Programme Bâtiments. Elle ne remplace pas un devis. Aucune donnée n'est enregistrée tant que vous n'envoyez pas votre demande.</p>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  // Endpoint du formulaire. Laisser vide tant qu'il n'est pas configuré.
+  var FORM_ENDPOINT = "";
+
+  var STEPS = [
+    {
+      id:"batiment",
+      q:"Quel type de bâtiment ?",
+      help:"Le type de bâtiment détermine la puissance nécessaire et le coût de l'installation.",
+      options:[
+        {v:"villa",   t:"Villa individuelle"},
+        {v:"mitoyen", t:"Villa mitoyenne ou jumelée"},
+        {v:"ppe",     t:"Immeuble ou copropriété (PPE)"},
+        {v:"pro",     t:"Bâtiment commercial ou administratif"}
+      ]
+    },
+    {
+      id:"annee",
+      q:"De quand date le bâtiment ?",
+      help:"L'isolation et le type de radiateurs changent beaucoup le calcul.",
+      options:[
+        {v:"pre1980", t:"Avant 1980"},
+        {v:"1980",    t:"Entre 1980 et 2000"},
+        {v:"2001",    t:"Entre 2001 et 2015"},
+        {v:"post2015",t:"Après 2015"}
+      ]
+    },
+    {
+      id:"surface",
+      q:"Quelle surface habitable est chauffée ?",
+      help:"Une estimation suffit.",
+      options:[
+        {v:"s1", t:"Moins de 120 m²"},
+        {v:"s2", t:"120 à 180 m²"},
+        {v:"s3", t:"180 à 250 m²"},
+        {v:"s4", t:"Plus de 250 m²"}
+      ]
+    },
+    {
+      id:"energie",
+      q:"Avec quoi vous chauffez-vous aujourd'hui ?",
+      options:[
+        {v:"mazout",   t:"Mazout"},
+        {v:"gaz",      t:"Gaz"},
+        {v:"elec",     t:"Électrique direct", d:"Radiateurs électriques ou sol chauffant électrique"},
+        {v:"renouv",   t:"Pompe à chaleur, bois ou chauffage à distance"}
+      ]
+    },
+    {
+      id:"age",
+      q:"Quel âge a votre installation ?",
+      help:"C'est l'élément qui déclenche l'obligation de remplacement.",
+      options:[
+        {v:"a1", t:"Moins de 10 ans"},
+        {v:"a2", t:"10 à 15 ans"},
+        {v:"a3", t:"15 à 20 ans"},
+        {v:"a4", t:"Plus de 20 ans, ou déjà en panne"}
+      ]
+    },
+    {
+      id:"role",
+      q:"Vous êtes...",
+      options:[
+        {v:"proprio",   t:"Propriétaire de la maison"},
+        {v:"copro",     t:"Copropriétaire en PPE"},
+        {v:"locataire", t:"Locataire"},
+        {v:"regie",     t:"Régie, gérance ou syndic"}
+      ]
+    },
+    {
+      id:"echeance",
+      q:"À quelle échéance envisagez-vous les travaux ?",
+      options:[
+        {v:"urgent", t:"Le plus vite possible", d:"Installation en panne ou en fin de vie"},
+        {v:"6mois",  t:"Dans les six mois"},
+        {v:"2ans",   t:"D'ici un à deux ans"},
+        {v:"info",   t:"Je m'informe, sans date précise"}
+      ]
+    },
+    {
+      id:"lieu",
+      q:"Où se trouve le bâtiment ?",
+      help:"Les aides communales et l'accès au chauffage à distance varient d'une commune à l'autre.",
+      type:"lieu"
+    }
+  ];
+
+  var answers = {};
+  var index = 0;
+
+  var host = document.getElementById("stepHost");
+  var progress = document.getElementById("progress");
+  var progressLabel = document.getElementById("progressLabel");
+  var backBtn = document.getElementById("backBtn");
+  var quiz = document.getElementById("quiz");
+  var result = document.getElementById("result");
+
+  STEPS.forEach(function(){
+    var s = document.createElement("span");
+    progress.appendChild(s);
+  });
+
+  function chf(n){
+    return Math.round(n/500)*500 === 0 ? "0" : (Math.round(n/500)*500).toLocaleString("de-CH");
+  }
+
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+
+  function renderStep(){
+    var step = STEPS[index];
+    progress.childNodes.forEach ? null : null;
+    Array.prototype.forEach.call(progress.children, function(el,i){
+      el.className = i < index ? "done" : "";
+    });
+    progressLabel.textContent = "Question " + (index+1) + " sur " + STEPS.length;
+    backBtn.hidden = index === 0;
+
+    var html = '<h2 class="q">' + step.q + '</h2>';
+    if(step.help){ html += '<p class="q-help">' + step.help + '</p>'; }
+
+    if(step.type === "lieu"){
+      html += '<div class="field"><label for="canton">Canton</label>' +
+        '<select id="canton">' +
+        '<option value="VD">Vaud</option>' +
+        '<option value="GE">Genève</option>' +
+        '<option value="FR">Fribourg</option>' +
+        '<option value="VS">Valais</option>' +
+        '<option value="NE">Neuchâtel</option>' +
+        '<option value="JU">Jura</option>' +
+        '</select></div>' +
+        '<div class="field"><label for="commune">Commune</label>' +
+        '<input type="text" id="commune" autocomplete="address-level2" placeholder="Par exemple Morges"></div>' +
+        '<button type="button" class="btn" id="finish">Voir mon résultat</button>' +
+        '<p class="err" id="lieuErr" hidden>Indiquez votre commune pour continuer.</p>';
+    } else {
+      html += '<div class="options">';
+      step.options.forEach(function(o){
+        html += '<button type="button" class="opt" data-v="' + o.v + '">' +
+          '<strong>' + o.t + '</strong>' +
+          (o.d ? '<em>' + o.d + '</em>' : '') +
+          '</button>';
+      });
+      html += '</div>';
+    }
+
+    host.innerHTML = html;
+
+    if(step.type === "lieu"){
+      var commune = document.getElementById("commune");
+      commune.focus();
+      document.getElementById("finish").addEventListener("click", function(){
+        if(!commune.value.trim()){
+          document.getElementById("lieuErr").hidden = false;
+          commune.focus();
+          return;
+        }
+        answers.canton = document.getElementById("canton").value;
+        answers.commune = commune.value.trim();
+        showResult();
+      });
+      commune.addEventListener("keydown", function(e){
+        if(e.key === "Enter"){ e.preventDefault(); document.getElementById("finish").click(); }
+      });
+    } else {
+      var first = host.querySelector(".opt");
+      if(first && index > 0) first.focus();
+      Array.prototype.forEach.call(host.querySelectorAll(".opt"), function(b){
+        b.addEventListener("click", function(){
+          answers[step.id] = b.getAttribute("data-v");
+          index++;
+          renderStep();
+        });
+      });
+    }
+  }
+
+  backBtn.addEventListener("click", function(){
+    if(index > 0){ index--; renderStep(); }
+  });
+
+  // ----- moteur de calcul -----
+  function compute(a){
+    var base = {s1:28000, s2:35000, s3:43000, s4:55000}[a.surface];
+    var typeF = {villa:1, mitoyen:.95, ppe:1.6, pro:1.8}[a.batiment];
+    var anneeF = {pre1980:1.12, "1980":1.05, "2001":1, post2015:.95}[a.annee];
+    var cout = base * typeF * anneeF;
+    if(a.energie === "elec") cout *= 1.25;      // pas de distribution hydraulique existante
+    if(a.energie === "mazout") cout += 3000;    // dépose et assainissement de la citerne
+
+    var sub = {s1:6000, s2:8000, s3:10000, s4:13000}[a.surface];
+    if(a.batiment === "ppe" || a.batiment === "pro") sub = Math.round(sub * 1.6);
+    if(a.energie === "renouv") sub = 0;
+
+    var bas = cout * .85, haut = cout * 1.15;
+    return {
+      bas:bas, haut:haut, sub:sub,
+      resteBas:Math.max(bas - sub, 0), resteHaut:Math.max(haut - sub, 0)
+    };
+  }
+
+  function verdict(a){
+    if(a.energie === "renouv"){
+      return {
+        warn:false,
+        t:"Vous n'êtes pas concerné par l'obligation de remplacement",
+        p:"Votre installation fonctionne déjà à l'énergie renouvelable. La loi ne vous impose rien. Vous pouvez malgré tout faire vérifier son rendement, un entretien mal suivi coûte souvent plus cher que prévu."
+      };
+    }
+    if(a.role === "locataire"){
+      return {
+        warn:false,
+        t:"La décision revient à votre propriétaire",
+        p:"En tant que locataire, vous ne pouvez pas engager le remplacement. L'obligation pèse sur le propriétaire, et le coût des travaux peut être partiellement répercuté sur les loyers dans les limites du droit du bail."
+      };
+    }
+    var vieux = a.age === "a3" || a.age === "a4";
+    if(vieux){
+      return {
+        warn:true,
+        t:"Vous ne pourrez plus remplacer votre installation à l'identique",
+        p:"Votre chaudière approche ou dépasse sa durée de vie habituelle, estimée à vingt ans. Dès l'entrée en vigueur de la nouvelle loi vaudoise sur l'énergie, prévue pour janvier 2027, tout remplacement devra se faire par une solution renouvelable. Autrement dit, le jour où elle lâche, vous n'aurez plus le choix de la remplacer par la même chose."
+      };
+    }
+    return {
+      warn:false,
+      t:"Vous avez encore du temps, mais l'issue est connue",
+      p:"Votre installation n'est pas en fin de vie. Le remplacement par une solution renouvelable devra intervenir au plus tard en 2042 pour une installation antérieure à 2020, et en 2047 au delà. Anticiper vous laisse le choix de la solution et du calendrier, plutôt que de décider dans l'urgence d'une panne en plein hiver."
+    };
+  }
+
+  function solution(a){
+    var out = [];
+    if(a.batiment === "ppe" || a.batiment === "pro" || a.surface === "s4"){
+      out.push("Une pompe à chaleur sur sondes géothermiques est à envisager sérieusement à cette échelle : investissement plus lourd, mais rendement supérieur et nuisance sonore nulle.");
+    }
+    out.push("Une pompe à chaleur air eau reste la solution la plus courante et la plus rapide à installer sur un bâtiment existant.");
+    out.push("Vérifiez si votre commune dispose d'un réseau de chauffage à distance, ou en prévoit un. Quand le raccordement est possible, c'est souvent la solution la moins chère et la moins contraignante.");
+    if(a.annee === "pre1980"){
+      out.push("Sur un bâtiment antérieur à 1980, il faut contrôler la température de départ de vos radiateurs. S'ils fonctionnent en haute température, il faudra soit en remplacer une partie, soit améliorer l'isolation, ce qui est déjà intégré dans l'estimation ci dessus.");
+    }
+    if(a.energie === "elec"){
+      out.push("Un chauffage électrique direct n'a pas de circuit d'eau. Il faut donc créer la distribution, ce qui alourdit nettement le chantier. C'est aussi le cas où le gain sur la facture est le plus spectaculaire.");
+    }
+    if(a.batiment === "ppe" || a.role === "copro"){
+      out.push("En copropriété, le remplacement passe par une décision d'assemblée générale. Comptez plusieurs mois de plus, et faites établir le devis avant l'assemblée plutôt qu'après.");
+    }
+    return out;
+  }
+
+  function showResult(){
+    var a = answers;
+    var c = compute(a);
+    var v = verdict(a);
+    var noLead = (a.role === "locataire") || (a.energie === "renouv");
+
+    var labels = {};
+    STEPS.forEach(function(s){
+      if(!s.options) return;
+      s.options.forEach(function(o){ if(o.v === a[s.id]) labels[s.id] = o.t; });
+    });
+
+    var html = '';
+    html += '<div class="verdict' + (v.warn ? ' warn' : '') + '">' +
+              '<h2>' + v.t + '</h2><p>' + v.p + '</p></div>';
+
+    if(!noLead){
+      html += '<div class="sum">' +
+        '<div class="sum-row"><span class="lbl">Coût estimé de l\'installation</span>' +
+        '<span class="val">' + chf(c.bas) + ' à ' + chf(c.haut) + ' CHF</span></div>' +
+        '<div class="sum-row sub"><span class="lbl">Subvention cantonale estimée</span>' +
+        '<span class="val">− ' + chf(c.sub) + ' CHF</span></div>' +
+        '<div class="sum-total"><span class="lbl">Reste à votre charge</span>' +
+        '<span class="val">' + chf(c.resteBas) + ' à ' + chf(c.resteHaut) + ' CHF</span></div>' +
+        '<p class="sum-note">S\'y ajoutent les déductions fiscales pour investissement économisant l\'énergie, et selon votre commune une aide complémentaire. Ces deux postes ne sont pas comptés ici.</p>' +
+        '</div>';
+
+      html += '<div class="block"><h3>Ce qui convient à votre situation</h3><ul class="points">';
+      solution(a).forEach(function(s){ html += '<li>' + s + '</li>'; });
+      html += '</ul></div>';
+    }
+
+    html += '<div class="recap"><b>Votre situation :</b> ' +
+      esc([labels.batiment, labels.annee ? "construit " + labels.annee.toLowerCase() : "", labels.surface, "chauffage " + (labels.energie||"").toLowerCase(), labels.age ? "installation de " + labels.age.toLowerCase() : ""].filter(Boolean).join(", ")) +
+      ', à ' + esc(a.commune) + ' (' + esc(a.canton) + ').</div>';
+
+    if(noLead){
+      html += '<button type="button" class="btn" id="restart">Refaire la simulation</button>';
+    } else {
+      html += '<div class="lead">' +
+        '<h3>Faire chiffrer votre projet</h3>' +
+        '<p>Un installateur agréé de votre région reprend votre simulation et vous établit un devis chiffré, gratuit et sans engagement.</p>' +
+        '<div class="two">' +
+          '<div class="field"><label for="nom">Nom et prénom</label><input type="text" id="nom" autocomplete="name"></div>' +
+          '<div class="field"><label for="tel">Téléphone</label><input type="tel" id="tel" autocomplete="tel"></div>' +
+        '</div>' +
+        '<div class="field"><label for="mail">Adresse e-mail</label><input type="email" id="mail" autocomplete="email"></div>' +
+        '<label class="consent"><input type="checkbox" id="ok">' +
+        '<span>J\'accepte que mes coordonnées et les réponses ci dessus soient transmises à un installateur partenaire de ma région afin qu\'il me contacte. Je peux demander leur suppression à tout moment.</span></label>' +
+        '<button type="button" class="btn" id="send">Envoyer ma demande</button>' +
+        '<p class="err" id="formErr" hidden></p>' +
+        '<p class="model">chauffageromand.ch est un site d\'information indépendant. Nous n\'installons pas de chauffage. Les installateurs partenaires nous rémunèrent pour la mise en relation, ce qui nous permet de garder ce service gratuit pour vous. Cette rémunération ne modifie ni votre devis, ni le contenu de nos pages.</p>' +
+        '</div>';
+    }
+
+    quiz.hidden = true;
+    result.innerHTML = html;
+    result.hidden = false;
+    result.scrollIntoView({behavior:"smooth", block:"start"});
+
+    var restart = document.getElementById("restart");
+    if(restart){
+      restart.addEventListener("click", function(){
+        answers = {}; index = 0; result.hidden = true; quiz.hidden = false; renderStep();
+      });
+    }
+
+    var send = document.getElementById("send");
+    if(send){
+      send.addEventListener("click", function(){
+        var nom = document.getElementById("nom").value.trim();
+        var tel = document.getElementById("tel").value.trim();
+        var mail = document.getElementById("mail").value.trim();
+        var ok = document.getElementById("ok").checked;
+        var err = document.getElementById("formErr");
+
+        if(!nom || !mail || !tel){
+          err.textContent = "Renseignez votre nom, votre téléphone et votre e-mail.";
+          err.hidden = false; return;
+        }
+        if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail)){
+          err.textContent = "Cette adresse e-mail ne semble pas valide.";
+          err.hidden = false; return;
+        }
+        if(!ok){
+          err.textContent = "Cochez la case pour que nous puissions transmettre votre demande.";
+          err.hidden = false; return;
+        }
+        err.hidden = true;
+        send.disabled = true;
+        send.textContent = "Envoi...";
+
+        var payload = Object.assign({}, answers, {
+          nom:nom, telephone:tel, email:mail,
+          estimation_basse:Math.round(c.resteBas),
+          estimation_haute:Math.round(c.resteHaut),
+          subvention:c.sub,
+          source:"simulateur"
+        });
+
+        function success(){
+          result.innerHTML = '<div class="card done"><h3>Demande envoyée</h3>' +
+            '<p>Un installateur de votre région vous contacte sous 48 heures ouvrables. ' +
+            'Vous recevez une copie de votre simulation par e-mail.</p>' +
+            '<p style="color:var(--ink-3);font-size:.88rem">Si vous ne trouvez rien, pensez à regarder dans vos indésirables.</p></div>';
+          result.scrollIntoView({behavior:"smooth", block:"start"});
+        }
+
+        if(!FORM_ENDPOINT){
+          console.log("Aucun endpoint configuré. Contenu du lead :", payload);
+          success(); return;
+        }
+        fetch(FORM_ENDPOINT, {
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify(payload)
+        }).then(function(r){
+          if(!r.ok) throw new Error("http");
+          success();
+        }).catch(function(){
+          send.disabled = false;
+          send.textContent = "Envoyer ma demande";
+          err.textContent = "L'envoi a échoué. Réessayez, ou écrivez à contact@chauffageromand.ch.";
+          err.hidden = false;
+        });
+      });
+    }
+  }
+
+  renderStep();
+})();
+</script>
+<footer>
+  <div class="foot-in">
+    <p>chauffageromand.ch est un site d'information indépendant destiné aux propriétaires de Suisse romande. Nous n'installons pas de chauffage. Les installateurs partenaires nous rémunèrent pour la mise en relation, ce qui nous permet de garder ce service gratuit. Cette rémunération n'influence ni le contenu de nos pages, ni le montant de votre devis.</p>
+    <p>Les informations réglementaires résument le droit applicable à leur date de mise à jour et ne constituent pas un conseil juridique. Les prix indiqués sont des fourchettes de marché : seul un devis établi après visite engage un installateur.</p>
+    <p><a href="/qui-sommes-nous/">Qui sommes-nous</a> &nbsp;·&nbsp; <a href="/confidentialite/">Protection des données</a> &nbsp;·&nbsp; <a href="mailto:contact@chauffageromand.ch">contact@chauffageromand.ch</a></p>
+  </div>
+</footer>
+</body>
+</html>
